@@ -1,10 +1,14 @@
 const express = require('express')
-const routes = require('./routes/Authentication')
+const routesAuthentication = require('./routes/Authentication')
+const routerUser = require('./routes/User')
 
 const PORT = 3333;
 const app = express()
 app.use(express.json())
-app.use(routes)
+
+
+app.use('/authentication', routesAuthentication)
+app.use('/user', routerUser)
 
 
 app.listen(PORT, () => {
