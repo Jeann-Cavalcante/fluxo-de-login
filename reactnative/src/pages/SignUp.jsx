@@ -1,8 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, TextInput, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import setupAPIClient from "../services/Api";
 
 const SignUp = () => {
   const [nome, setNome] = useState("");
@@ -13,11 +14,32 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(true);
   const [showConfirmPassword, setShowConfirmPassword] = useState(true);
 
-  function handleSubmit() {
-    console.log(email);
-  }
-
   const navigation = useNavigation();
+
+  async function handleSubmit() {
+
+    const api = setupAPIClient();
+
+    if (password !== confirmPassword) return alert("As senhas não são iguais");
+    if(!checked) return alert("Você precisa aceitar os termos de uso");
+    if(nome === "" || email === "" || password === "") return alert("Preencha todos os campos");
+
+    const response = await api.post("/user", {
+      name: nome,
+      email,
+      password,
+    });
+
+    console.log(response.data);
+
+    setNome("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setChecked(false);
+
+    navigation.navigate("SignIn");
+  }
 
   return (
     <View className="flex-1 p-4">
