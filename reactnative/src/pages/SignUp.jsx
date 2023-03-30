@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import { useEffect, useState } from "react";
-import { Text, TextInput, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import setupAPIClient from "../services/Api";
 
@@ -42,7 +42,7 @@ const SignUp = () => {
   }
 
   return (
-    <View className="flex-1 p-4">
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="flex-1 p-4">
       <View className="mt-10 ">
         <Text className="text-2xl font-black">CADASTRE-SE</Text>
         <Text className="text-gray-500 text-lg">
@@ -139,7 +139,7 @@ const SignUp = () => {
         <Text className="text-gray-500">Já possui conta? </Text>
         <Text className="text-green-800">Faça seu login agora mesmo</Text>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

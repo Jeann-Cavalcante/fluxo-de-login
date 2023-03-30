@@ -5,27 +5,17 @@ import Home from "../pages/Home";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import { SafeAreaView } from "react-native";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
 
 const RouterStack = () => {
+  const {isSigned} = useContext(AuthContext);
+  
   const Stack = createNativeStackNavigator();
   return (
-
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="SignIn">
-          <Stack.Screen
-            name="SignIn"
-            component={SignIn}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="SignUp"
-            component={SignUp}
-            options={{
-              headerShown: false,
-            }}
-          />
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="SignIn">
+        {isSigned ? (
           <Stack.Screen
             name="Home"
             component={Home}
@@ -33,9 +23,26 @@ const RouterStack = () => {
               headerShown: false,
             }}
           />
-        </Stack.Navigator>
-      </NavigationContainer>
-
+        ) : (
+          <>
+            <Stack.Screen
+              name="SignIn"
+              component={SignIn}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUp}
+              options={{
+                headerShown: false,
+              }}
+            />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

@@ -5,11 +5,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { TextInput } from "react-native";
 import Checkbox from "expo-checkbox";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
+import { AuthContext } from "../context/AuthContext";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -17,8 +18,11 @@ const SignIn = () => {
   const [checked, setChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
 
+  const {login} = useContext(AuthContext);
+
   function handleSubmit() {
-    console.log(email);
+    console.log(email, password);
+    login(email, password);
   }
 
   const navigation = useNavigation();
