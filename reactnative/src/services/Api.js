@@ -1,9 +1,4 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// const token = await AsyncStorage.getItem('@token');
-// console.log(token);
-
-
 
  function setupAPIClient(token){
 
