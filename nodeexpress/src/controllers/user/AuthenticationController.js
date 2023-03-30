@@ -1,5 +1,6 @@
 const { compare } = require('bcryptjs');
 const prisma = require('../../prisma');
+const { createToken } = require('../../helpers/create-token');
 
 async function auth(req, res) {
   try {
@@ -21,7 +22,13 @@ async function auth(req, res) {
       return res.status(401).json({ message: 'Senha inválida' });
     }
 
-    return res.json(user).status(200);
+    const token = createToken(user.id);
+
+    return res.json({
+      message: 'Usuário autenticado com sucesso',
+      userId: user.id,
+      token: token
+    }).status(200);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: 'Erro interno' });

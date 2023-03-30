@@ -1,4 +1,4 @@
-const { createToken } = require('../../helpers/create-token');
+const getToken = require('../../helpers/get-token');
 const prisma = require('../../prisma');
 
 async function detailUser(req, res) {
@@ -9,6 +9,10 @@ async function detailUser(req, res) {
         id: Number(id)
       }
     })
+
+    const verifyToken = getToken(req, user.id)
+
+    if(verifyToken.error) return res.status(401).json({ message: 'Token inválido' });
 
     return res.json({
       message: 'Usuário autenticado com sucesso',
