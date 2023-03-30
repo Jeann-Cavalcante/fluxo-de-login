@@ -2,7 +2,7 @@
 
 A aplicação consiste em gerenciar fluxo de login nas stacks que tenho dominio.
 
-## Layout web
+## Layout Mobile
 ![Web 1](https://github.com/Jeann-Cavalcante/fluxo-de-login/blob/master/reactnative/src/assets/autenticaçãoRN.gif)
 
 
