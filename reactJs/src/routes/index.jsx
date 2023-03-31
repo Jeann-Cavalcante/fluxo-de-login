@@ -6,7 +6,6 @@ import SignUp from "../pages/SignUp";
 import PrivateRouter from "./Private";
 
 const AppRoutes = () => {
-  const isAuthenticated = true;
   return (
     <BrowserRouter>
       <Routes>
