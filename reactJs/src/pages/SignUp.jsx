@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import cadastroLogo from "../assets/cadastrologo.svg";
 import { useForm } from "react-hook-form";
+import ApiSetup from "../services/ApiSetup";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const {
@@ -10,9 +14,37 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    
+  const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
+
+  const onSubmit = async (data) => {
+
+    const api = ApiSetup();
+
+    if(data.password !== data.passwordConfirmation) return alert("Senhas não conferem");
+
+    try {
+      
+      const response = await api.post("/user", {
+        name: data.name,
+        email: data.email,
+        password: data.senha,
+      });
+
+      localStorage.setItem("@user", JSON.stringify( {
+        token: response.data.token,
+        id: response.data.userId,
+        logado: true,
+      }));
+
+      toast.success("Cadastro realizado com sucesso", {delay: 2000, position: "top-center", autoClose: 5000})
+  
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      alert("Erro ao cadastrar");
+      logout();
+    }
 
   };
 
