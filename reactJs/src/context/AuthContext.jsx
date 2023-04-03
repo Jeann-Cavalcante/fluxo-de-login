@@ -4,12 +4,36 @@ import ApiSetup from "../services/ApiSetup";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const logout = () => {
-    localStorage.removeItem("@user");
-    setAuthenticated(false);
+  const logout = () => localStorage.removeItem("@user");
+
+  const signIn = async (email, password) => {
+    
+    try {
+      const api = ApiSetup();
+      const response = await api.post("/authentication", {
+        email: email,
+        password: password,
+      });
+
+      console.log(response.data);
+
+      localStorage.setItem(
+        "@user",
+        JSON.stringify({
+          token: response.data.token,
+          id: response.data.userId,
+          logado: true,
+        })
+      );
+      setLoading(false);
+      return response.data;
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+        return {error: true};
+    }
   };
 
   useEffect(() => {
@@ -35,11 +59,11 @@ export const AuthProvider = ({ children }) => {
     };
 
     verifyToken();
-  }, [authenticated]);
+  }, []);
 
   return (
     <AuthContext.Provider
-      value={{ authenticated, setAuthenticated, loading }}
+      value={{loading, logout, signIn }}
     >
       {children}
     </AuthContext.Provider>

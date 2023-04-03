@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/auth.svg";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../context/AuthContext";
+import { useContext, useEffect } from "react";
+import { toast } from "react-toastify";
+import { getRememberMe, setRememberMe } from "../utils/RememberMe";
 
 const SignIn = () => {
 
@@ -8,10 +12,41 @@ const SignIn = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+
+    try { 
+      const response = await signIn(data.email, data.senha);
+      if(response.error)  return toast.error("Erro ao realizar login", {position: "top-center", autoClose: 8000, delay: 1000});	
+      toast.success("Login realizado com sucesso", {position: "top-center", autoClose: 8000, delay: 1000});
+      navigate("/");
+      if (data.lembrar) {
+        setRememberMe({email: data.email, senha: data.senha});
+      }
+    } catch (error) {
+      toast.error("Erro ao realizar login", {position: "top-center", autoClose: 8000, delay: 1000});
+    }
+  };
+
+  useEffect(() => {
+    const remember = getRememberMe();
+    console.log(remember);
+
+    if (remember) {
+      setValue("email", remember.email);
+      setValue("senha", remember.senha);
+      setValue("lembrar", true);
+    }
+
+
+
+  }, []);
 
   return (
     <div className="bg-gray-900 primary flex-1 h-screen">
@@ -67,7 +102,7 @@ const SignIn = () => {
               </label>
               <input
                 placeholder="Digite sua senha"
-                type="senha"
+                type="password"
                 id="senha"
                 {...register("senha", { required: true, minLength: 3 })}
                 className="w-full rounded-2xl bg-gray-800 focus:outline-blue-600 focus:outline-none focus:outline-2 text-white placeholder:text-gray-400 py-3 px-4 mt-2"
@@ -86,7 +121,7 @@ const SignIn = () => {
                   type="checkbox"
                   name="lembrar"
                   id="lembrar"
-
+                  {...register("lembrar")}
                 />
                 <label className="text-gray-400" htmlFor="lembrar">
                   Lembrar-me
