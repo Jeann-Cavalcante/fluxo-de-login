@@ -49,7 +49,7 @@ const SignIn = () => {
   }, []);
 
   return (
-    <div className="bg-gray-900 primary flex-1 h-screen">
+    <div className="bg-gray-900 primary flex-1 h-screen p-2">
       <main className="flex h-full max-w-[1300px] justify-center items-center mx-auto gap-8 duration-300">
         <section className="max-w-[500px]">
           <div>
@@ -64,7 +64,7 @@ const SignIn = () => {
                 className="w-[35px]"
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
               />
-              <span className="text-white font-bold">Login com o Google</span>
+              <span className="text-white font-bold">Acessar com o Google</span>
             </button>
           </div>
 
@@ -110,8 +110,8 @@ const SignIn = () => {
               {errors.senha && (
                 <span className="text-red-500 text-sm">
                   Este campo é obrigatório
-                  </span>
-                  )}
+                </span>
+              )}
             </div>
 
             <div className="flex flex-col gap-y-8">
@@ -141,7 +141,7 @@ const SignIn = () => {
           </div>
         </section>
 
-        <section className="flex-1 bg-white p-10 rounded-2xl h-2/3 flex justify-center">
+        <section className="flex-1 bg-white p-10 rounded-2xl h-2/3 justify-center hidden lg:flex">
           <img className="w-[600px]" src={logo} alt="" />
         </section>
       </main>

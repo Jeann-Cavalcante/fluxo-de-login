@@ -49,9 +49,9 @@ const SignUp = () => {
   };
 
   return (
-    <div className="bg-gray-900 primary flex-1 h-screen">
+    <div className="bg-gray-900 primary flex-1 min-h-screen px-2 py-6">
       <main className="flex h-full max-w-[1300px] justify-center items-center mx-auto gap-8 ">
-        <section className="flex-1 bg-white p-10 rounded-2xl h-2/3 flex justify-center">
+        <section className="flex-1 bg-white p-10 rounded-2xl h-2/3 justify-center hidden lg:flex">
           <img className="w-[600px]" src={cadastroLogo} alt="" />
         </section>
 
@@ -69,7 +69,7 @@ const SignUp = () => {
                 className="w-[35px]"
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
               />
-              <span className="text-white font-bold">Login com o Google</span>
+              <span className="text-white font-bold">Acessar com o Google</span>
             </button>
           </div>
 
